@@ -1,0 +1,30 @@
+On i7-6700 3.4GHz,...
+
+simon@Bob:~$ ./sumofprimes2.bin 
+This program calculates the sum of all the prime numbers less than or equal to input value x <= 10^19.
+Author: Simon Goater Jan 2026
+RAM requirement approx. 3.465963 + 64*pi(sqrt(x))/1000000000 GB.
+Enter x: 1000000
+Calculating sum of primes less than or equal to 1000000.
+The sum of primes less than or equal to 1000000 is 37550402023.
+Time: 0 secs
+Enter x: 1000000000
+Calculating sum of primes less than or equal to 1000000000.
+The sum of primes less than or equal to 1000000000 is 24739512092254535.
+Time: 0 secs
+Enter x: 1000000000000
+Calculating sum of primes less than or equal to 1000000000000.
+The sum of primes less than or equal to 1000000000000 is 18435588552550705911377.
+Time: 3 secs
+Enter x: 10000000000000
+Calculating sum of primes less than or equal to 10000000000000.
+The sum of primes less than or equal to 10000000000000 is 1699246443377779418889494.
+322.580645 Gx/s
+Time: 31 secs
+Enter x: 100000000000000
+Calculating sum of primes less than or equal to 100000000000000.
+The sum of primes less than or equal to 100000000000000 is 157589260710736940541561021.
+450.450450 Gx/s
+Time: 3 mins 42 secs
+Enter x: 
+
