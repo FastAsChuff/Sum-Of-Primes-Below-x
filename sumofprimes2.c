@@ -1,3 +1,12 @@
+//===================================================================================================================================
+// sumofprimes2.c: Sums all primes <= x.
+//===================================================================================================================================
+// Author: Simon Goater Jan 2026
+// Uses adaptaion of Legendre's prime counting method to calculate the sum of all primes less than or equal to input x <= 10^19.
+//
+// COPYRIGHT NOTICE: Copying, modifying, and distributing with conspicuous attribution for any purpose is permitted.
+//===================================================================================================================================
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
