@@ -28,3 +28,25 @@ The sum of primes less than or equal to 100000000000000 is 157589260710736940541
 Time: 3 mins 42 secs
 Enter x: 
 
+(Bit more cache...)
+simon@Bob:~$ ./sumofprimes2.bin 
+This program calculates the sum of all the prime numbers less than or equal to input value x <= 10^19.
+Author: Simon Goater Jan 2026
+RAM requirement approx. 5.576043 + 64*pi(sqrt(x))/1000000000 GB.
+Enter x: 42000000000000
+Calculating sum of primes less than or equal to 42000000000000.
+The sum of primes less than or equal to 42000000000000 is 28580397872778138539033872.
+494.117647 Gx/s (*expanded primes array)
+Time: 1 mins 25 secs
+Enter x: 42000000000000
+Calculating sum of primes less than or equal to 42000000000000.
+The sum of primes less than or equal to 42000000000000 is 28580397872778138539033872.
+700.000000 Gx/s
+Time: 1 mins 0 secs
+Enter x: 314159265358979
+Calculating sum of primes less than or equal to 314159265358979.
+The sum of primes less than or equal to 314159265358979 is 1501168486951412543283545347.
+751.577190 Gx/s
+Time: 6 mins 58 secs
+Enter x: 
+
