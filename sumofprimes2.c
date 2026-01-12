@@ -30,13 +30,18 @@
 // gcc sumofprimes2.c -o sumofprimes2.bin -O3 -Wall -mssse3 -lm
 
 #define NUMOF32BITPRIMES 203280221
+#define SOPISQRT10TO19 3162277660U // isqrt(10^19)
+#define SOPPIISQRT10TO19 151876932 // pi(isqrt(10^19))
+#define SOPPIISQRT10TO18 50847534 // pi(isqrt(10^18))
+#define SOPPIISQRT10TO17 17082666 // pi(isqrt(10^17))
+#define SOPPIISQRT10TO16 5761455 // pi(isqrt(10^16))
 
 // RAM Requirements
 // ================
 // xi stack 151876932*sizeof(xivals_s) = up to 9.72GB
 // Choose cache size...(diminishing returns)
-#define SOPXICACHESIZE1 // ~1GB
-//#define SOPXICACHESIZE2 // ~3.1GB
+//#define SOPXICACHESIZE1 // ~1GB
+#define SOPXICACHESIZE2 // ~3.1GB
 //#define SOPXICACHESIZE3 // ~16.6GB
 //#define SOPXICACHESIZE4 // ~28.8GB
 #ifdef SOPXICACHESIZE1 
@@ -71,9 +76,13 @@ uint32_t isqrt(uint64_t n) {
 
 _Bool inascarrayu32(uint32_t n, uint32_t *array, uint64_t arraysize, uint64_t *index) {
   // Binary Search. Array is assumed sorted ascending. index largest st array[index] <= n.
-  if ((n < array[0]) || (n > array[arraysize-1])) {
+  if (n < array[0]) {
     *index = -1;
     return false;
+  }
+  if (n >= array[arraysize-1]) {
+    *index = arraysize-1;
+    return true;
   }
   uint64_t leftix = 0;
   uint64_t rightix = arraysize-1;
@@ -307,7 +316,7 @@ U128 sumofprimes(uint64_t x, uint32_t **primes, uint64_t **primesums, uint32_t *
     free(*primes);
     free(*primesums);
     if (isqrtx > 5000000U) {
-      *primes = Mairsonsprimesieve(0xffffffffU, numprimes);
+      *primes = Mairsonsprimesieve(0xffffffffu, numprimes);
     } else {
       *primes = Mairsonsprimesieve(2*isqrtx, numprimes);
     }
@@ -315,8 +324,10 @@ U128 sumofprimes(uint64_t x, uint32_t **primes, uint64_t **primesums, uint32_t *
     *primesums = makeprimesums(*primes, *numprimes);
     assert(*primesums);
   }
-  uint64_t piisqrtx;
-  inascarrayu32(isqrtx, *primes, *numprimes, &piisqrtx);
+  uint64_t piisqrtx = 0;
+  if (isqrtx >= 2) {
+    inascarrayu32(isqrtx, *primes, *numprimes, &piisqrtx);
+  }
   piisqrtx++;
   //printf("There are %lu primes <= %u.\n", piisqrtx, isqrtx);
   //exit(0);
@@ -337,8 +348,8 @@ int main(int argc, char* argv[]) {
   SOPXICACHETYPE *xicachesmalls = aligned_alloc(alignof(SOPXICACHETYPE), xicachesmallsbytes);
   assert(xicachesmalls);
   memset(xicachesmalls, 0xffu, xicachesmallsbytes);
-  printf("This program calculates the sum of all the prime numbers less than or equal to input value x <= 10^19.\nAuthor: Simon Goater Jan 2026\nRAM requirement approx. %f + %lu*pi(sqrt(x))/1000000000 GB.\n", 
-(((double)sizeof(SOPXICACHETYPE)*SOPXICACHEWIDTH)*SOPXICACHEHEIGHT + (double)NUMOF32BITPRIMES*(sizeof(uint32_t) + sizeof(uint64_t)))/1000000000.0, sizeof(xivals_s));
+  printf("This program calculates the sum of all the prime numbers less than or equal to input value x <= 10^19.\nAuthor: Simon Goater Jan 2026\nRAM requirement approx. %f + %lu*pi(sqrt(x))/1000000000 GB.\nThe second term is approx. %f, %f, %f, %f GB for x = 10^16, 10^17, 10^18, 10^19 respectively.\n", 
+(((double)sizeof(SOPXICACHETYPE)*SOPXICACHEWIDTH)*SOPXICACHEHEIGHT + (double)NUMOF32BITPRIMES*(sizeof(uint32_t) + sizeof(uint64_t)))/1000000000.0, sizeof(xivals_s), sizeof(xivals_s)*SOPPIISQRT10TO16/1000000000.0, sizeof(xivals_s)*SOPPIISQRT10TO17/1000000000.0, sizeof(xivals_s)*SOPPIISQRT10TO18/1000000000.0, sizeof(xivals_s)*SOPPIISQRT10TO19/1000000000.0);
   while (true) {
     uint64_t x;
     printf("Enter x: ");
