@@ -3,7 +3,7 @@ Uses my adaptaion of Legendre's prime counting method to calculate the sum of al
 
 This method is easy to understand and significantly faster than prime sieving all the way up to x. 
 
-Only prime sieving up to sqrt(x) is required, though there are benefits to going further.
+Only prime sieving up to sqrt(x) is required.
 
 A cache is used for small intermediate values. The cache size can be altered, though the benefits are minor.
 
