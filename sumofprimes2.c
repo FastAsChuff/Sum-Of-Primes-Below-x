@@ -144,7 +144,7 @@ void getxivals(xivals_s *xivals, uint64_t stacksize, uint32_t *primes, uint64_t 
       xivals[xivalsix].val1 = ((U128)(xivals[xivalsix].x+1)*xivals[xivalsix].x)/2;
       xivals[xivalsix].val2 = 0;
     }    
-    if ((xivals[xivalsix].x <= SOPXICACHEWIDTH) && (xivals[xivalsix].m <= SOPXICACHEHEIGHT)) {
+    if ((xivals[xivalsix].x < SOPXICACHEWIDTH) && (xivals[xivalsix].m < SOPXICACHEHEIGHT)) {
       if (xicachesmalls[xivals[xivalsix].x*SOPXICACHEHEIGHT + xivals[xivalsix].m] != (SOPXICACHETYPE)-1) {
         xivals[xivalsix].val1 = xicachesmalls[xivals[xivalsix].x*SOPXICACHEHEIGHT + xivals[xivalsix].m];
         xivals[xivalsix].val2 = 0;
@@ -248,7 +248,7 @@ void getxivals(xivals_s *xivals, uint64_t stacksize, uint32_t *primes, uint64_t 
     */
     if ((xivals[xivalsix].val2 != (U128)-1) && (xivals[xivalsix].val1 != (U128)-1)) {
       if (xivalsix == 0) break;
-      if ((xivals[xivalsix].x <= SOPXICACHEWIDTH) && (xivals[xivalsix].m <= SOPXICACHEHEIGHT)) {
+      if ((xivals[xivalsix].x < SOPXICACHEWIDTH) && (xivals[xivalsix].m < SOPXICACHEHEIGHT)) {
         if (xicachesmalls[xivals[xivalsix].x*SOPXICACHEHEIGHT + xivals[xivalsix].m] == (SOPXICACHETYPE)-1) {
           U128 val = xivals[xivalsix].val1;
           if (xivals[xivalsix].m) val -= primes[xivals[xivalsix].m-1]*xivals[xivalsix].val2;
@@ -268,7 +268,7 @@ U128 getxi(uint64_t x, uint32_t m, uint32_t **primes, uint64_t **primesums, uint
   if (m <= *numprimes) {
     if ((*primes)[m-1] >= x) return 1;
   }
-  if ((x <= SOPXICACHEWIDTH) && (m <= SOPXICACHEHEIGHT)) {
+  if ((x < SOPXICACHEWIDTH) && (m < SOPXICACHEHEIGHT)) {
     if (xicachesmalls[x*SOPXICACHEHEIGHT + m] != (SOPXICACHETYPE)-1) return xicachesmalls[x*SOPXICACHEHEIGHT + m];
   }
   uint32_t isqrtx = isqrt(x);
@@ -344,7 +344,7 @@ int main(int argc, char* argv[]) {
   uint32_t *primes = Mairsonsprimesieve(100000000u, &numprimes);
   assert(primes);
   uint64_t *primesums = makeprimesums(primes, numprimes);
-  uint64_t xicachesmallsbytes = (1+SOPXICACHEWIDTH)*((1+SOPXICACHEHEIGHT)*sizeof(SOPXICACHETYPE));
+  uint64_t xicachesmallsbytes = SOPXICACHEWIDTH*(SOPXICACHEHEIGHT*sizeof(SOPXICACHETYPE));
   SOPXICACHETYPE *xicachesmalls = aligned_alloc(alignof(SOPXICACHETYPE), xicachesmallsbytes);
   assert(xicachesmalls);
   memset(xicachesmalls, 0xffu, xicachesmallsbytes);
